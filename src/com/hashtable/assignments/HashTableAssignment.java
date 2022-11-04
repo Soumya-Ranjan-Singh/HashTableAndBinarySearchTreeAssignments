@@ -1,8 +1,13 @@
-//Use Case 1 --> Ability to find frequency of words in a sentence i.e “To be or not to be”.
-/* Use Case 2 --> Ability to find frequency of words in a large paragraph phrase i.e
-“Paranoids are not paranoid because they are paranoid
-but because they keep putting themselves deliberately into paranoid avoidable situations”
+/*
+1.) Use Case 1 --> Ability to find frequency of words in a sentence i.e “To be or not to be”.
+2.) Use Case 2 --> Ability to find frequency of words in a large paragraph phrase i.e
+    “Paranoids are not paranoid because they are paranoid
+     but because they keep putting themselves deliberately into paranoid avoidable situations”.
+3.) Use Case 3 --> Ability to remove avoidable word from the phrase i.e
+    “Paranoids are not paranoid because they are paranoid
+     but because they keep putting themselves deliberately into paranoid avoidable situations”.
 */
+
 
 package com.hashtable.assignments;
 
@@ -31,7 +36,8 @@ public class HashTableAssignment {
     public void addToHashTable(String data, int occurrence)
     {
         myMapNode newNode = new myMapNode(data, occurrence);
-        if (head == null) {
+        if (head == null)
+        {
 
             head = newNode;
         }
@@ -50,17 +56,42 @@ public class HashTableAssignment {
         if (head == null)
         {
             System.out.println("HashTable is empty");
-            return;
         }
         else
         {
             System.out.println("Occurrence of word in Paragraph");
             System.out.println("Key && Occurrence");
             System.out.println("-----------------");
-            while (current != null) {
+            while (current != null)
+            {
                 System.out.println(current.key + "    " + current.value);
                 current = current.next;
             }
+        }
+    }
+
+    //Delete Hash Table index containing a given key.
+    public void removeFromHashTable(String keyValue)
+    {
+        myMapNode current = head;
+        if (head == null)
+        {
+            System.out.println("HashTable is empty");
+        }
+        else
+        {
+            myMapNode previous = null;
+            while (current != null && !current.key.equalsIgnoreCase(keyValue))
+            {
+                //store the value of current in previous
+                previous = current;
+                current = current.next;
+            }
+            if (current == null)
+            {
+                throw new RuntimeException("The key with the given value is not found!!");
+            }
+            previous.next = current.next;
         }
     }
 
@@ -74,9 +105,16 @@ public class HashTableAssignment {
 
         //Create HashTable
         createHashTable(paragraph,hashTable);
+        System.out.println("\nPrinting the original Hash Table below.");
 
         //Printing the HashTable
-        System.out.println("\nPrinting the Hash Table");
+        hashTable.printHashTable();
+        System.out.println();
+
+        //Deleting from hashTable
+        hashTable.removeFromHashTable("avoidable");
+        System.out.println("Printing the Hash Table after removing the avoidable word from phrase");
+        System.out.println();
         hashTable.printHashTable();
     }
 
